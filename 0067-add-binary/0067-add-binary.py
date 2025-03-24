@@ -1,27 +1,17 @@
 class Solution:
     def addBinary(self, a: str, b: str) -> str:
-        # sol 1 -> transform binary into desimal (easy)
-        # sol 2 -> 2's complement method for adding nums
-        def transform_to_decimal(num: str) -> int:
-            result = 0 
-            length = len(num) - 1
-            for idx in range(length, -1, -1) : 
-                result+= int(num[idx]) * 2**(length-idx)
-            return result
-
-        def transform_to_binary(num: int) -> str:
-            result = ""
-            while(True):
-                if num %2 == 0:
-                    result += "0"
-                else :
-                    result += "1"
-                num //= 2
-                if num == 0 : break
-            return result[::-1]
-        a = transform_to_decimal(a)
-        b = transform_to_decimal(b)
-        result = transform_to_binary(a + b)
-        return result
-
+        result = ""
+        carry = 0
+        a_len = len(a)-1
+        b_len = len(b)-1
+        while(a_len>=0 or b_len>=0 or carry): # "or carry" means carry isn't zero. so we add this
+            if a_len>=0 :
+                carry += int(a[a_len])
+                a_len -= 1
+            if b_len >= 0:
+                carry += int(b[b_len])
+                b_len -= 1
+            result += str(carry % 2)
+            carry  //= 2
+        return result[::-1]
         
